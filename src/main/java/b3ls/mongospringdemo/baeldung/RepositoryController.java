@@ -12,12 +12,13 @@ import org.springframework.web.bind.annotation.ResponseStatus;
 import org.springframework.web.bind.annotation.RestController;
 
 @RestController
-public class MongoController {
+@RequestMapping("/repo")
+public class RepositoryController {
 
   private UserRepository userRepository;
 
   @Autowired
-  public MongoController(UserRepository userRepository) {
+  public RepositoryController(UserRepository userRepository) {
     this.userRepository = userRepository;
   }
 
