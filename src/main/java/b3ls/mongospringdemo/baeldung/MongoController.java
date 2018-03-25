@@ -41,4 +41,19 @@ public class MongoController {
     user.setName(StringUtils.capitalize(username));
     userRepository.save(user);
   }
+
+  @RequestMapping(value = "/delete/{username}", method = RequestMethod.DELETE)
+  @ResponseStatus(HttpStatus.OK)
+  public void delete(@PathVariable("username") String username) {
+    User user = userRepository
+        .findByName(username);
+
+    userRepository.delete(user);
+  }
+
+  @RequestMapping(value = "/delete", method = RequestMethod.DELETE)
+  @ResponseStatus(HttpStatus.OK)
+  public void deleteAll() {
+    userRepository.deleteAll();
+  }
 }
