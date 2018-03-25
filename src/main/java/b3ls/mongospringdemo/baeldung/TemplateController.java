@@ -3,6 +3,10 @@ package b3ls.mongospringdemo.baeldung;
 import java.util.List;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.mongodb.core.MongoTemplate;
+import org.springframework.data.mongodb.core.query.Criteria;
+import org.springframework.data.mongodb.core.query.Query;
+import org.springframework.data.mongodb.core.query.Update;
+import org.springframework.util.StringUtils;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
@@ -31,8 +35,15 @@ public class TemplateController implements MongoController {
   }
 
   @Override
-  public void capitalise(String username) {
-    // TODO
+  public void capitalise(@PathVariable("username") String username) {
+
+    Query query = new Query();
+    query.addCriteria(Criteria.where("name").is(username));
+
+    Update update = new Update();
+    update.set("name", StringUtils.capitalize(username));
+
+    mongoTemplate.updateMulti(query, update, User.class);
   }
 
   @Override
