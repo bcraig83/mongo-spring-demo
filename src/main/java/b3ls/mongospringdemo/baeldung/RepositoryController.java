@@ -7,13 +7,12 @@ import org.springframework.http.HttpStatus;
 import org.springframework.util.StringUtils;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.ResponseStatus;
 import org.springframework.web.bind.annotation.RestController;
 
 @RestController
 @RequestMapping("/repo")
-public class RepositoryController {
+public class RepositoryController implements MongoController {
 
   private UserRepository userRepository;
 
@@ -22,12 +21,12 @@ public class RepositoryController {
     this.userRepository = userRepository;
   }
 
-  @RequestMapping("/")
+  @Override
   public String helloWorld() {
     return "Hello World!";
   }
 
-  @RequestMapping(value = "/create/{username}", method = RequestMethod.PUT)
+  @Override
   @ResponseStatus(HttpStatus.OK)
   public void create(@PathVariable("username") String username) {
     User user = new User();
@@ -35,7 +34,7 @@ public class RepositoryController {
     userRepository.insert(user);
   }
 
-  @RequestMapping(value = "/capitalise/{username}", method = RequestMethod.PUT)
+  @Override
   @ResponseStatus(HttpStatus.OK)
   public void capitalise(@PathVariable("username") String username) {
     User user = userRepository
@@ -45,7 +44,7 @@ public class RepositoryController {
     userRepository.save(user);
   }
 
-  @RequestMapping(value = "/delete/{username}", method = RequestMethod.DELETE)
+  @Override
   @ResponseStatus(HttpStatus.OK)
   public void delete(@PathVariable("username") String username) {
     User user = userRepository
@@ -54,13 +53,13 @@ public class RepositoryController {
     userRepository.delete(user);
   }
 
-  @RequestMapping(value = "/delete", method = RequestMethod.DELETE)
+  @Override
   @ResponseStatus(HttpStatus.OK)
   public void deleteAll() {
     userRepository.deleteAll();
   }
 
-  @RequestMapping(value = "/get", method = RequestMethod.GET)
+  @Override
   @ResponseStatus(HttpStatus.OK)
   public List<User> getAll() {
     return userRepository.findAll(new Sort(Sort.Direction.ASC, "name"));
