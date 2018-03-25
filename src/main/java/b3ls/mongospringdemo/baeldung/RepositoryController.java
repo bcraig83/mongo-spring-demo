@@ -23,7 +23,7 @@ public class RepositoryController implements MongoController {
 
   @Override
   public String helloWorld() {
-    return "Hello World!";
+    return "Hello from the Repository Controller!";
   }
 
   @Override
