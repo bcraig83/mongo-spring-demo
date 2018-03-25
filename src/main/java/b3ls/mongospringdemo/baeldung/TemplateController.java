@@ -27,12 +27,12 @@ public class TemplateController implements MongoController {
   public void create(@PathVariable("username") String username) {
     User user = new User();
     user.setName(username);
-    mongoTemplate.insert(user, "user");
+    mongoTemplate.save(user);
   }
 
   @Override
   public void capitalise(String username) {
-
+    // TODO
   }
 
   @Override
@@ -42,11 +42,10 @@ public class TemplateController implements MongoController {
 
   @Override
   public void deleteAll() {
-
   }
 
   @Override
   public List<User> getAll() {
-    return null;
+    return mongoTemplate.findAll(User.class, "user");
   }
 }
