@@ -1,12 +1,22 @@
 package b3ls.mongospringdemo.baeldung;
 
 import java.util.List;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.mongodb.core.MongoTemplate;
+import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
 @RestController
 @RequestMapping("/template")
-public class TemplateController implements MongoController{
+public class TemplateController implements MongoController {
+
+  private MongoTemplate mongoTemplate;
+
+  @Autowired
+  public TemplateController(MongoTemplate mongoTemplate) {
+    this.mongoTemplate = mongoTemplate;
+  }
 
   @Override
   public String helloWorld() {
@@ -14,8 +24,10 @@ public class TemplateController implements MongoController{
   }
 
   @Override
-  public void create(String username) {
-
+  public void create(@PathVariable("username") String username) {
+    User user = new User();
+    user.setName(username);
+    mongoTemplate.insert(user, "user");
   }
 
   @Override
