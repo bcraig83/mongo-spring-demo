@@ -1,6 +1,8 @@
 package b3ls.mongospringdemo.baeldung;
 
+import java.util.List;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Sort;
 import org.springframework.http.HttpStatus;
 import org.springframework.util.StringUtils;
 import org.springframework.web.bind.annotation.PathVariable;
@@ -55,5 +57,11 @@ public class MongoController {
   @ResponseStatus(HttpStatus.OK)
   public void deleteAll() {
     userRepository.deleteAll();
+  }
+
+  @RequestMapping(value = "/get", method = RequestMethod.GET)
+  @ResponseStatus(HttpStatus.OK)
+  public List<User> getAll() {
+    return userRepository.findAll(new Sort(Sort.Direction.ASC, "name"));
   }
 }
