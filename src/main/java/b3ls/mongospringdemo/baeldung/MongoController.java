@@ -2,6 +2,7 @@ package b3ls.mongospringdemo.baeldung;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
+import org.springframework.util.StringUtils;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
@@ -25,9 +26,19 @@ public class MongoController {
 
   @RequestMapping(value = "/create/{username}", method = RequestMethod.PUT)
   @ResponseStatus(HttpStatus.OK)
-  public void createUser(@PathVariable("username") String username) {
+  public void create(@PathVariable("username") String username) {
     User user = new User();
     user.setName(username);
     userRepository.insert(user);
+  }
+
+  @RequestMapping(value = "/capitalise/{username}", method = RequestMethod.PUT)
+  @ResponseStatus(HttpStatus.OK)
+  public void capitalise(@PathVariable("username") String username) {
+    User user = userRepository
+        .findByName(username);
+
+    user.setName(StringUtils.capitalize(username));
+    userRepository.save(user);
   }
 }
