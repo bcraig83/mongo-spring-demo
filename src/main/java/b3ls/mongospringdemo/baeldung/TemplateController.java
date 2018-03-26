@@ -47,8 +47,15 @@ public class TemplateController implements MongoController {
   }
 
   @Override
-  public void delete(String username) {
+  public void delete(@PathVariable("username") String username) {
+    Query query = new Query();
+    query.addCriteria(Criteria.where("name").is(username));
 
+    List<User> usersToDelete = mongoTemplate.find(query, User.class);
+
+    usersToDelete
+        .stream()
+        .forEach(user -> mongoTemplate.remove(user));
   }
 
   @Override
